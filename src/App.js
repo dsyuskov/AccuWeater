@@ -1,5 +1,5 @@
 import React from 'react';
-import './App.css';
+import './App.scss';
 
 const PATH_BASE = 'http://api.openweathermap.org/data/2.5/weather';
 const API_KEY = 'APPID=d5ecba2b149b9cdfb1fea656c735177d';
@@ -45,47 +45,43 @@ class App extends React.Component {
     const {result, searchCity} = this.state
 
     if (!result) return null;  
-    
+       
     switch(result.cod) {
       case '404': {        
         return (
-          <div className="App">
+          <div className='app'> 
             <Search 
-            value = {searchCity}
-            onChange = {this.onChange}
-          />          
-          <div>
-            City not found
-          </div>
+              value = {searchCity}
+              onChange = {this.onChange}
+            />          
+          <h3>Город не найден</h3>           
         </div>        
         )        
       }
 
       case 200: {        
         return (      
-          <div className="App">
+          <div className='app'> 
             <Search 
               value = {searchCity}
               onChange = {this.onChange}
-            />
+            />             
             <Table 
-              item = {result}
+              item = {result}              
             />           
           </div>          
         );        
-      }
-      default: {        
-        return (
-          <div className="App">
+      }      
+
+      default: {
+        return (      
+          <div className='app'> 
             <Search 
               value = {searchCity}
               onChange = {this.onChange}
-            />          
-            <div>
-              I don't know
-          </div> 
+            />                                
           </div>          
-        )
+        );        
       }
     }    
   }
@@ -95,8 +91,10 @@ class Search extends React.Component {
   render() {
     const {value, onChange} = this.props
     return (
-      <form>
+      <form className='search'> 
+        <h3>Введите название города</h3>
         <input 
+          className = 'search__input'
           type = 'text'
           value = {value}
           onChange = {onChange}
@@ -109,23 +107,21 @@ class Search extends React.Component {
 class Table extends React.Component {
   render() {
     const {item} = this.props;
-    return(             
-      <div>           
-        <table>
-          <tr>
-            <td>Город</td>
-            <td>{item.name}</td>
-          </tr>
-          <tr>
-            <td>Страна</td>
-            <td>{item.sys.country}</td>
-          </tr>
-          <tr>
-            <td>Температура</td>
-            <td>{item.main.temp}</td>
-          </tr>
-        </table>      
-      </div>
+    return(                   
+      <table className="result-table">
+        <tr>
+          <td className="result-table__item">Город</td>
+          <td className="result-table__item">{item.name}</td>
+        </tr>
+        <tr>
+          <td className="result-table__item">Страна</td>
+          <td className="result-table__item">{item.sys.country}</td>
+        </tr>
+        <tr>
+          <td className="result-table__item">Температура</td>
+          <td className="result-table__item">{item.main.temp}</td>
+        </tr>
+      </table>            
     )       
   }
 }
